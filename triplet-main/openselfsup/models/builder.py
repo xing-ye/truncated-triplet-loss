@@ -8,9 +8,8 @@ def build(cfg, registry, default_args=None):
     """Build a module.
 
     Args:
-        cfg (dict, list[dict]): The config of modules, it is either a dict
-            or a list of configs.
-        registry (:obj:`Registry`): A registry the module belongs to.
+        cfg (dict, list[dict]): 模块的配置，它可以是字典或配置列表。
+        registry (:obj:`Registry`):模块所属的注册表
         default_args (dict, optional): Default arguments to build the module.
             Default: None.
 
