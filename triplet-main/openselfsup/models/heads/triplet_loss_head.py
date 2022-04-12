@@ -12,7 +12,7 @@ class TripletLossHead(nn.Module):
 
     def __init__(self, predictor, gamma=2, size_average=True):
         super(TripletLossHead, self).__init__()
-        self.predictor = builder.build_neck(predictor)
+        self.predictor = builder.build_neck(predictor)#就是一个模块，对输入的数据进行了，怎么感觉就是模型呢？
         #这个是什么呢？看后续是对输入的样本进行一个操作的。
         self.size_average = size_average
         self.ranking_loss = nn.MarginRankingLoss(margin=100.)#传统的那个triplet loss
@@ -22,8 +22,15 @@ class TripletLossHead(nn.Module):
         self.predictor.init_weights(init_linear=init_linear)
 
     def forward(self, input, target):
+        '''
+        我猜测，input就是原始数据，target就是真实结果,predictor就是生成的一个预测模型
+        所以pred就是预测的结果。
+        其调用过程，可以看configs\selfsup\triplet\r50_bs4096_accumulate4_ep1000_fp16_triplet_gpu12g.py
+        里的内容
+        '''
+        #
         #这里的输入是什么呢？处理前后？是一个batch还是只是一个正负样本？看起来input是一个batch的正负样本
-        pred = self.predictor([input])[0]
+        pred = self.predictor([input])[0]#就是一个预测器，这一步是将原始数据输入后生成的结果
         pred_norm = nn.functional.normalize(pred, dim=1)
         target_norm = nn.functional.normalize(target, dim=1)
         # 对输入的数据（tensor）进行指定维度的L2_norm运算。
