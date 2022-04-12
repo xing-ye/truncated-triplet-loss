@@ -58,6 +58,9 @@ class TripletLossHead(nn.Module):
             #选取前k个求均值，作为负样本，为什么是从1开始呢？
             dist_an.append(down_k)
             # dist_an.append(dist[i][mask[i] == 0].median().unsqueeze(0))
+            '''
+            要明白输入的数据的特征，这比较重要，以及每个维度对应的东西
+            '''
         dist_ap = torch.cat(dist_ap)
         dist_an = torch.cat(dist_an)
         y = torch.ones_like(dist_an)
